@@ -9,7 +9,7 @@ using UnityEngine;
 public class SphericalAttractor : MonoBehaviour
 {
     public HeapSpawner _spawner;
-    
+
     [Header("Sphere")]
     public Transform center;                // If null, uses this.transform
     [Min(0.01f)] public float radius = 3f;  // Target shell radius
@@ -86,5 +86,10 @@ public class SphericalAttractor : MonoBehaviour
     void AddTarget(GameObject go)
     {
         targets.Add(go.GetComponent<Rigidbody>());
+    }
+
+    public void RemoveTarget(GameObject go)
+    {
+        targets.Remove(go.GetComponent<Rigidbody>());
     }
 }

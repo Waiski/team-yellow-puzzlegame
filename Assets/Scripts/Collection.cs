@@ -16,6 +16,8 @@ public class Collection : MonoBehaviour
 
     public GameController gameController;
 
+    public SphericalAttractor planet;
+
     private List<CollectableItem> items = new();
     public Recipe recipe;
 
@@ -45,6 +47,10 @@ public class Collection : MonoBehaviour
     {
         if (item == null) yield break;
 
+        if (planet != null)
+        {
+            planet.RemoveTarget(item.gameObject);
+        }
 
         Vector3 startPos = item.transform.position;
         Vector3 endPos = transform.position + new Vector3(itemSpacing * (items.Count - 1), 0, 0);
