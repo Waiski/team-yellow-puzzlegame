@@ -3,8 +3,10 @@ using UnityEngine.InputSystem;
 
 public class InputDetection : MonoBehaviour
 {
-    Ray ray;
-    RaycastHit hit;
+    public Collection collection;
+
+    private Ray ray;
+    private RaycastHit hit;
 
     void Update()
     {
@@ -12,9 +14,10 @@ public class InputDetection : MonoBehaviour
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit) && hit.collider.TryGetComponent(out CollectableItem item))
             {
-                print(hit.collider.name);
+                print(item.itemName);
+                collection.AddItem(item);
             }
         }
     }
