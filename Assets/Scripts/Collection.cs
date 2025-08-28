@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Collection : MonoBehaviour
 {
@@ -14,67 +15,101 @@ public class Collection : MonoBehaviour
 
     public float timeToScaleObject = 0.5f;
 
+    public GameController gameController;
+
     private List<CollectableItem> items = new();
+    public Recipe recipe;
+
+    private int flyingItems = 0;
+    private List<CollectableItem> justArrivedItems = new();
 
     public void AddItem(CollectableItem item)
     {
         if (items.Count >= maxItems)
         {
-            Debug.Log("Collection is full!");
+            gameController.GameOver();
             return;
         }
 
         items.Add(item);
         Debug.Log($"Added {item.itemName} to collection. Total items: {items.Count}");
 
-        // Fly the object to the collection
+        flyingItems++;
         StartCoroutine(FlyToCollection(item));
     }
 
-    private void MergeItems(string itemName)
+    private void MergeItems(string itemName, int count)
     {
-        Debug.Log($"Merging items with name: {itemName}");
-        // Destroy merged gameobjects
         foreach (var item in items.Where(i => i.itemName == itemName))
         {
             Destroy(item.gameObject);
         }
-        // Remove merged items from list
         items.RemoveAll(i => i.itemName == itemName);
+        recipe.AddCollectedItems(itemName, count);
     }
 
     private System.Collections.IEnumerator FlyToCollection(CollectableItem item)
     {
+        if (item == null) yield break;
+
+
         Vector3 startPos = item.transform.position;
         Vector3 endPos = transform.position + new Vector3(itemSpacing * (items.Count - 1), 0, 0);
-        float elapsedTime = 0f;
 
-        // Disable collider and make the item kinematic
-        if (item.TryGetComponent<Collider>(out var collider)) collider.enabled = false;
-        if (item.TryGetComponent<Rigidbody>(out var rb)) rb.isKinematic = true;
+        Rigidbody rb = item.GetComponent<Rigidbody>();
 
-        while (elapsedTime < flyDuration)
+        float startTime = Time.time;
+        Vector3 direction = (endPos - startPos).normalized;
+        float distance = Vector3.Distance(startPos, endPos);
+        float forceMagnitude = distance / flyDuration * (rb != null ? rb.mass : 1f);
+
+        if (rb != null)
+            rb.AddForce(direction * forceMagnitude, ForceMode.Impulse);
+
+        while (Time.time - startTime < flyDuration)
         {
-            item.transform.position = Vector3.Lerp(startPos, endPos, elapsedTime / flyDuration);
-            elapsedTime += Time.deltaTime;
             yield return null;
         }
+
+        // Snap to final position and disable physics after flying is complete
+        if (rb != null)
+        {
+            rb.isKinematic = true;
+            rb.position = endPos;
+        }
+        else
+        {
+            item.transform.position = endPos;
+        }
+        if (item.gameObject.TryGetComponent<Collider>(out var collider)) collider.enabled = false;
 
         item.transform.position = endPos;
         item.transform.SetParent(transform);
 
-        while ((elapsedTime - flyDuration) < timeToScaleObject)
+        while ((Time.time - startTime - flyDuration) < timeToScaleObject)
         {
-            item.transform.localScale = Vector3.Lerp(Vector3.one, Vector3.one * itemScaleInCollection, (elapsedTime - flyDuration) / timeToScaleObject);
-            elapsedTime += Time.deltaTime;
+            item.transform.localScale = Vector3.Lerp(Vector3.one, Vector3.one * itemScaleInCollection, (Time.time - startTime - flyDuration) / timeToScaleObject);
             yield return null;
         }
 
-        // Count the number of items with this name
-        int itemCount = items.Count(i => i.itemName == item.itemName);
-        if (itemCount >= numberNeededToMerge)
+        // Mark this item as arrived
+        justArrivedItems.Add(item);
+        flyingItems--;
+
+        // Only check for merging after all flying items have finished
+        if (flyingItems == 0)
         {
-            MergeItems(item.itemName);
+            // For each item type, check if enough to merge
+            var grouped = items.GroupBy(i => i.itemName);
+            foreach (var group in grouped)
+            {
+                int itemCount = group.Count();
+                if (itemCount >= numberNeededToMerge)
+                {
+                    MergeItems(group.Key, itemCount);
+                }
+            }
+            justArrivedItems.Clear();
         }
     }
 }
