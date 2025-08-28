@@ -10,6 +10,7 @@ public class RecipeItem
 {
 	public string itemName;
 	public int requiredCount;
+    public Sprite Sprite;
 }
 
 public class Recipe : MonoBehaviour
@@ -18,6 +19,8 @@ public class Recipe : MonoBehaviour
 
     public GameController gameController;
     public Text recipeText;
+    
+    public GameplayUIController gameplayUIController;
 
     private Dictionary<string, int> collectedItems = new();
 
@@ -59,7 +62,17 @@ public class Recipe : MonoBehaviour
         }
         recipeText.text = text;
     }
-
+    
+    private void UpdateRecipeUI()
+    {
+        for (var i = 0; i < requiredItems.Count; i++)
+        {
+            var item = requiredItems[i];
+            int collected = collectedItems.ContainsKey(item.itemName) ? collectedItems[item.itemName] : 0;
+            gameplayUIController.UpdateGoalRequirements(i, collected - item.requiredCount);
+        }
+    }
+    
     private bool CheckWinCondition()
     {
         foreach (var item in requiredItems)

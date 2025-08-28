@@ -149,12 +149,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   requiredItems:
-  - itemName: Wheel
+  - itemName: bear
     requiredCount: 1
-  - itemName: Cone
+    Sprite: {fileID: 21300000, guid: c76a37a5a935d486a9b1a6d232b5e6ad, type: 3}
+  - itemName: cardboard
+    requiredCount: 1
+    Sprite: {fileID: 21300000, guid: 2afeb8c61f1c4449b8a328dfbb7afdd5, type: 3}
+  - itemName: tube
     requiredCount: 2
+    Sprite: {fileID: 21300000, guid: b1cf60b2c4e2f41089b4c6091d547100, type: 3}
   gameController: {fileID: 458602828}
   recipeText: {fileID: 119378625}
+  gameplayUIController: {fileID: 0}
 --- !u!4 &69359759
 Transform:
   m_ObjectHideFlags: 0
@@ -600,6 +606,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GamePlayUI
       objectReference: {fileID: 0}
+    - target: {fileID: 6348678995696847428, guid: 89e2189c42b40433f8bf7ac2437910b2, type: 3}
+      propertyPath: _recipe
+      value: 
+      objectReference: {fileID: 69359758}
     - target: {fileID: 8523260946430676773, guid: 89e2189c42b40433f8bf7ac2437910b2, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -671,6 +681,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d5900cac57484d23b67a28f44306253, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameController
+  loseScreen: {fileID: 939966275}
+  winScreen: {fileID: 5685130376459840511}
   gameOverText: {fileID: 593824156}
 --- !u!4 &458602829
 Transform:
@@ -1010,16 +1022,64 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameLoseScreen
       objectReference: {fileID: 0}
+    - target: {fileID: 3803676275607571009, guid: 0faffbf795c564b4baf3f5465f21d018, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3803676275607571009, guid: 0faffbf795c564b4baf3f5465f21d018, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3803676275607571009, guid: 0faffbf795c564b4baf3f5465f21d018, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 939966275}
+    - target: {fileID: 3803676275607571009, guid: 0faffbf795c564b4baf3f5465f21d018, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3803676275607571009, guid: 0faffbf795c564b4baf3f5465f21d018, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Retry
+      objectReference: {fileID: 0}
+    - target: {fileID: 3803676275607571009, guid: 0faffbf795c564b4baf3f5465f21d018, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LoseScreenController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3803676275607571009, guid: 0faffbf795c564b4baf3f5465f21d018, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3657832199885105145, guid: 0faffbf795c564b4baf3f5465f21d018, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 939966275}
   m_SourcePrefab: {fileID: 100100000, guid: 0faffbf795c564b4baf3f5465f21d018, type: 3}
 --- !u!224 &939966273 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 467731060280148726, guid: 0faffbf795c564b4baf3f5465f21d018, type: 3}
   m_PrefabInstance: {fileID: 939966272}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &939966274 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3657832199885105145, guid: 0faffbf795c564b4baf3f5465f21d018, type: 3}
+  m_PrefabInstance: {fileID: 939966272}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &939966275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 939966274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 977917f1c4a204cb99e703a74b23fac5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoseScreenController
 --- !u!1 &997792145
 GameObject:
   m_ObjectHideFlags: 0
@@ -1411,6 +1471,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 936465829}
     m_Modifications:
+    - target: {fileID: 3117224890166870777, guid: 422404219fb5c443bafb5902e576797e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3117224890166870777, guid: 422404219fb5c443bafb5902e576797e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3117224890166870777, guid: 422404219fb5c443bafb5902e576797e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 939966275}
+    - target: {fileID: 3117224890166870777, guid: 422404219fb5c443bafb5902e576797e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3117224890166870777, guid: 422404219fb5c443bafb5902e576797e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Retry
+      objectReference: {fileID: 0}
+    - target: {fileID: 3117224890166870777, guid: 422404219fb5c443bafb5902e576797e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LoseScreenController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3117224890166870777, guid: 422404219fb5c443bafb5902e576797e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3681644020988967059, guid: 422404219fb5c443bafb5902e576797e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1498,13 +1586,33 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5545519146888711479, guid: 422404219fb5c443bafb5902e576797e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5685130376459840511}
   m_SourcePrefab: {fileID: 100100000, guid: 422404219fb5c443bafb5902e576797e, type: 3}
+--- !u!1 &440509576657072420 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5545519146888711479, guid: 422404219fb5c443bafb5902e576797e, type: 3}
+  m_PrefabInstance: {fileID: 440509576657072419}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &5685130376459840510 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3681644020988967059, guid: 422404219fb5c443bafb5902e576797e, type: 3}
   m_PrefabInstance: {fileID: 440509576657072419}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5685130376459840511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440509576657072420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69b1cbb00b1a64e338d46438a77eb3d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WinScreenController
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
