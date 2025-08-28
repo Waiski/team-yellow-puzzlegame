@@ -42,6 +42,16 @@ public class Collection : MonoBehaviour
         }
         items.RemoveAll(i => i.itemName == itemName);
         recipe.AddCollectedItems(itemName, count);
+        ReorganizeItems();
+    }
+    
+    private void ReorganizeItems()
+    {
+        for (int i = 0; i < items.Count; i++)
+        {
+            Vector3 targetPos = transform.position + new Vector3(itemSpacing * i, 0, 0);
+            items[i].transform.position = targetPos;
+        }
     }
 
     private System.Collections.IEnumerator FlyToCollection(CollectableItem item)
@@ -55,7 +65,7 @@ public class Collection : MonoBehaviour
 
         Vector3 endPos = transform.position + new Vector3(itemSpacing * (items.Count - 1), 0, 0);
 
-        Rigidbody rb = item.GetComponent<Rigidbody>(); 
+        Rigidbody rb = item.GetComponent<Rigidbody>();
         float startTime = Time.time;
 
         while (Time.time - startTime < flyDuration)
@@ -113,12 +123,12 @@ public class Collection : MonoBehaviour
                 }
             }
             justArrivedItems.Clear();
+            // Check if there's too many items after they are done flying
+            if (items.Count >= maxItems)
+            {
+                gameController.GameOver();
+            }
         }
 
-        // Check if there's too many items after they are done flying
-        if (items.Count >= maxItems)
-        {
-            gameController.GameOver();
-        }
     }
 }
