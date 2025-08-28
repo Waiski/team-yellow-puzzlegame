@@ -76,7 +76,6 @@ public class HeapSpawner : MonoBehaviour
                 if (go == null) continue;
                 
                 ItemSpawned?.Invoke(go);
-                go.transform.localScale = Vector3.one; // ensure reset
             }
         }
     }
