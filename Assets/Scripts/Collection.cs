@@ -8,10 +8,10 @@ public class Collection : MonoBehaviour
     public int maxItems;
     public int numberNeededToMerge;
 
+    public List<GameObject> placeholderObjects = new();
+
     public float flyDuration = 1f;
     public float itemScaleInCollection = 0.5f;
-
-    public float itemSpacing = 0.5f;
 
     public float timeToScaleObject = 0.5f;
 
@@ -24,6 +24,18 @@ public class Collection : MonoBehaviour
 
     private int flyingItems = 0;
     private List<CollectableItem> justArrivedItems = new();
+
+    public void Start()
+    {
+        // Disable meshes for each placeholder object
+        foreach (var placeholder in placeholderObjects)
+        {
+            if (placeholder.TryGetComponent<MeshRenderer>(out var meshRenderer))
+            {
+                meshRenderer.enabled = false;
+            }
+        }
+    }
 
     public void AddItem(CollectableItem item)
     {
@@ -49,7 +61,7 @@ public class Collection : MonoBehaviour
     {
         for (int i = 0; i < items.Count; i++)
         {
-            Vector3 targetPos = transform.position + new Vector3(itemSpacing * i, 0, 0);
+            Vector3 targetPos = placeholderObjects[i].transform.position;
             items[i].transform.position = targetPos;
         }
     }
@@ -63,7 +75,7 @@ public class Collection : MonoBehaviour
             planet.RemoveTarget(item.gameObject);
         }
 
-        Vector3 endPos = transform.position + new Vector3(itemSpacing * (items.Count - 1), 0, 0);
+        int itemIndex = items.Count - 1;
 
         Rigidbody rb = item.GetComponent<Rigidbody>();
         float startTime = Time.time;
@@ -71,8 +83,9 @@ public class Collection : MonoBehaviour
         while (Time.time - startTime < flyDuration)
         {
             Vector3 startPos = item.transform.position;
-            Vector3 direction = (endPos - startPos).normalized;
-            float distance = Vector3.Distance(startPos, endPos);
+            Vector3 endPosFlying = placeholderObjects[itemIndex].transform.position; // Always get the latest position
+            Vector3 direction = (endPosFlying - startPos).normalized;
+            float distance = Vector3.Distance(startPos, endPosFlying);
             float forceMagnitude = distance / flyDuration * (rb != null ? rb.mass : 1f);
 
             if (rb != null)
@@ -84,24 +97,29 @@ public class Collection : MonoBehaviour
             yield return null;
         }
 
+        Vector3 endPos = placeholderObjects[itemIndex].transform.position;
+
         // Snap to final position and disable physics after flying is complete
         if (rb != null)
         {
             rb.isKinematic = true;
             rb.position = endPos;
-        }
-        else
-        {
-            item.transform.position = endPos;
+            rb.rotation = Quaternion.identity;
+            rb.angularVelocity = Vector3.zero;
+            rb.linearVelocity = Vector3.zero;
+            rb.freezeRotation = true;
         }
         if (item.gameObject.TryGetComponent<Collider>(out var collider)) collider.enabled = false;
 
-        item.transform.position = endPos;
+        item.transform.GetComponentsInChildren<Transform>().ToList().ForEach(t => t.position = Vector3.zero);
+        item.transform.SetPositionAndRotation(endPos, Quaternion.identity);
         item.transform.SetParent(transform);
+
+        Vector3 originalScale = item.transform.localScale;
 
         while ((Time.time - startTime - flyDuration) < timeToScaleObject)
         {
-            item.transform.localScale = Vector3.Lerp(Vector3.one, Vector3.one * itemScaleInCollection, (Time.time - startTime - flyDuration) / timeToScaleObject);
+            item.transform.localScale = Vector3.Lerp(originalScale, originalScale * itemScaleInCollection, (Time.time - startTime - flyDuration) / timeToScaleObject);
             yield return null;
         }
 
