@@ -13,11 +13,15 @@ MonoBehaviour:
   m_Name: SpawnObjects
   m_EditorClassIdentifier: Assembly-CSharp::SpawnTable
   Items:
-  - Prefab: {fileID: 8980908882406691205, guid: cc91cee1d6442471b92ccc477e5fdb20, type: 3}
-    Count: 15
-  - Prefab: {fileID: 8980908882406691205, guid: a619384d73e5247519f718ba81f61ee8, type: 3}
-    Count: 15
+  - Prefab: {fileID: 2919161670968370636, guid: db492f5e09e6246d783b93fff67a08de, type: 3}
+    Count: 50
+  - Prefab: {fileID: 32624092640908083, guid: c5775f6dd5e484d749233f48ef7fe5bf, type: 3}
+    Count: 100
   - Prefab: {fileID: 8980908882406691205, guid: 90506d874e3b44212b36b4d507a991d4, type: 3}
-    Count: 15
+    Count: 9
   - Prefab: {fileID: 8980908882406691205, guid: 2703a0eb854d4449fa41dd60ab7830eb, type: 3}
-    Count: 15
+    Count: 9
+  - Prefab: {fileID: 8980908882406691205, guid: cc91cee1d6442471b92ccc477e5fdb20, type: 3}
+    Count: 18
+  - Prefab: {fileID: 8980908882406691205, guid: a619384d73e5247519f718ba81f61ee8, type: 3}
+    Count: 50

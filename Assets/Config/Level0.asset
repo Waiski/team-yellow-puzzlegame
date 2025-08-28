@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Level0
   m_EditorClassIdentifier: Assembly-CSharp::SpawnTable
   Items:
-  - Prefab: {fileID: 5686067501924121196, guid: 0d4677c4647864edcb79bc7ee73574c5, type: 3}
-    Count: 10
-  - Prefab: {fileID: 5686067501924121196, guid: 3945a0dd5a8fc414c887fd8e49e281db, type: 3}
-    Count: 3
-  - Prefab: {fileID: 5686067501924121196, guid: eae3324a18cee4927b73df85849c171f, type: 3}
-    Count: 16
+  - Prefab: {fileID: 8980908882406691205, guid: 90506d874e3b44212b36b4d507a991d4, type: 3}
+    Count: 9
+  - Prefab: {fileID: 8980908882406691205, guid: cc91cee1d6442471b92ccc477e5fdb20, type: 3}
+    Count: 18
+  - Prefab: {fileID: 8980908882406691205, guid: 2703a0eb854d4449fa41dd60ab7830eb, type: 3}
+    Count: 9
