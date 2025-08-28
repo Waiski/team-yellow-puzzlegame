@@ -47,6 +47,7 @@ public class Recipe : MonoBehaviour
             } else
             {
                 UpdateRecipeText();
+                UpdateRecipeUI();
             }
         }
     }
@@ -68,8 +69,8 @@ public class Recipe : MonoBehaviour
         for (var i = 0; i < requiredItems.Count; i++)
         {
             var item = requiredItems[i];
-            int collected = collectedItems.ContainsKey(item.itemName) ? collectedItems[item.itemName] : 0;
-            gameplayUIController.UpdateGoalRequirements(i, collected - item.requiredCount);
+            int collected = collectedItems.ContainsKey(item.itemName) ? collectedItems[item.itemName]/3 : 0;
+            gameplayUIController.UpdateGoalRequirements(i, item.requiredCount - collected);
         }
     }
     
