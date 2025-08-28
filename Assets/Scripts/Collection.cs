@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Collection : MonoBehaviour
 {
@@ -25,12 +24,6 @@ public class Collection : MonoBehaviour
 
     public void AddItem(CollectableItem item)
     {
-        if (items.Count >= maxItems)
-        {
-            gameController.GameOver();
-            return;
-        }
-
         items.Add(item);
         Debug.Log($"Added {item.itemName} to collection. Total items: {items.Count}");
 
@@ -110,6 +103,12 @@ public class Collection : MonoBehaviour
                 }
             }
             justArrivedItems.Clear();
+        }
+
+        // Check if there's too many items after they are done flying
+        if (items.Count >= maxItems)
+        {
+            gameController.GameOver();
         }
     }
 }
