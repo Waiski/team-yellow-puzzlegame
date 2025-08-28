@@ -128,7 +128,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4082388289190250658, guid: cafc02da942924f2dad86846f837012d, type: 3}
       propertyPath: itemName
-      value: battery
+      value: tube
       objectReference: {fileID: 0}
     - target: {fileID: 5686067501924121196, guid: cafc02da942924f2dad86846f837012d, type: 3}
       propertyPath: m_Name

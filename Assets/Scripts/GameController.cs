@@ -3,21 +3,22 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
+    [SerializeField] LoseScreenController loseScreen;
+    [SerializeField] WinScreenController winScreen;
+    
     public Text gameOverText;
 
     private bool gameIsRunning = true;
 
     public void GameOver()
     {
-        gameOverText.text = "Game Over!";
-        gameOverText.enabled = true;
+        loseScreen.Show();
         gameIsRunning = false;
     }
 
     public void GameWon()
     {
-        gameOverText.text = "You Win!";
-        gameOverText.enabled = true;
+        winScreen.Show();
         gameIsRunning = false;
     }
 
