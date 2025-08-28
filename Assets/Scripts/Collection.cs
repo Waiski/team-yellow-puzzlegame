@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using UnityEngine;
 
@@ -52,21 +53,24 @@ public class Collection : MonoBehaviour
             planet.RemoveTarget(item.gameObject);
         }
 
-        Vector3 startPos = item.transform.position;
         Vector3 endPos = transform.position + new Vector3(itemSpacing * (items.Count - 1), 0, 0);
 
-        Rigidbody rb = item.GetComponent<Rigidbody>();
-
+        Rigidbody rb = item.GetComponent<Rigidbody>(); 
         float startTime = Time.time;
-        Vector3 direction = (endPos - startPos).normalized;
-        float distance = Vector3.Distance(startPos, endPos);
-        float forceMagnitude = distance / flyDuration * (rb != null ? rb.mass : 1f);
-
-        if (rb != null)
-            rb.AddForce(direction * forceMagnitude, ForceMode.Impulse);
 
         while (Time.time - startTime < flyDuration)
         {
+            Vector3 startPos = item.transform.position;
+            Vector3 direction = (endPos - startPos).normalized;
+            float distance = Vector3.Distance(startPos, endPos);
+            float forceMagnitude = distance / flyDuration * (rb != null ? rb.mass : 1f);
+
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector3.zero; // Reset velocity to avoid overshooting
+                rb.angularVelocity = Vector3.zero; // Reset angular velocity to avoid spinning
+                rb.AddForce(direction * forceMagnitude, ForceMode.Impulse);
+            }
             yield return null;
         }
 

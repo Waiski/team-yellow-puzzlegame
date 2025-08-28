@@ -848,6 +848,7 @@ MonoBehaviour:
   itemSpacing: 0.5
   timeToScaleObject: 0.5
   gameController: {fileID: 458602828}
+  planet: {fileID: 136969960}
   recipe: {fileID: 69359758}
 --- !u!1 &1903463885
 GameObject:
